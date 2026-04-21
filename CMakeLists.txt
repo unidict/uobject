@@ -6,7 +6,7 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 # MSVC needs explicit /std:c11 + /experimental:c11atomics for <stdatomic.h>
 if(MSVC)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /std:c11 /experimental:c11atomics" CACHE STRING "" FORCE)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /std:c11 /experimental:c11atomics")
 endif()
 
 # ---------- Options ----------
