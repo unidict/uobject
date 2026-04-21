@@ -4,9 +4,9 @@ project(libuobject VERSION 1.0.0 LANGUAGES C)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-# MSVC needs explicit /std:c11 for <stdatomic.h> support
+# MSVC needs explicit /std:c11 + /experimental:c11atomics for <stdatomic.h>
 if(MSVC)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /std:c11" CACHE STRING "" FORCE)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /std:c11 /experimental:c11atomics" CACHE STRING "" FORCE)
 endif()
 
 # ---------- Options ----------
