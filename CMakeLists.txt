@@ -28,6 +28,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 endif()
 
 if(MSVC)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /std:c11")
     add_compile_options(/W4)
 else()
     add_compile_options(-Wall -Wextra -pedantic)
