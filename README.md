@@ -2,40 +2,9 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![C](https://img.shields.io/badge/C-11-blue.svg)](https://en.wikipedia.org/wiki/C11_(C_standard))
-[![CI](https://github.com/kejinlu/uobject/actions/workflows/ci.yml/badge.svg)](https://github.com/kejinlu/uobject/actions/workflows/ci.yml)
+[![CI](https://github.com/unidict/uobject/actions/workflows/ci.yml/badge.svg)](https://github.com/unidict/uobject/actions/workflows/ci.yml)
 
 **libuobject** — A minimal C library providing Linux-kernel-style reference-counted objects with type-safe polymorphism, virtual function tables, and an LRU cache.
-
-```mermaid
-graph LR
-    subgraph Core["uobject (core)"]
-        O[uobject]
-        T[uobject_type / vtable]
-        RC[_Atomic refcount]
-        O --- T
-        O --- RC
-    end
-
-    subgraph Derived["User structs (composition)"]
-        U1[User]
-        U2[Connection]
-        U3[Buffer]
-    end
-
-    subgraph Cache["ucache (LRU)"]
-        HT[Hash Table]
-        LRU[Doubly Linked List]
-        HT --- LRU
-    end
-
-    subgraph Hash["uhash"]
-        M[MurmurHash3]
-    end
-
-    Derived -->|embed| Core
-    Cache -->|stores uobject*| Core
-    Cache -->|hashes keys| Hash
-```
 
 ## Features
 
