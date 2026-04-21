@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.20)
 project(libuobject VERSION 1.0.0 LANGUAGES C)
 
 set(CMAKE_C_STANDARD 11)
@@ -28,7 +28,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 endif()
 
 if(MSVC)
-    add_compile_options(/std:c11 /W4)
+    add_compile_options(/W4)
 else()
     add_compile_options(-Wall -Wextra -pedantic)
 endif()
