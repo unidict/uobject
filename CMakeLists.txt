@@ -4,6 +4,11 @@ project(libuobject VERSION 1.0.0 LANGUAGES C)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
+# MSVC needs explicit /std:c11 for <stdatomic.h> support
+if(MSVC)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /std:c11" CACHE STRING "" FORCE)
+endif()
+
 # ---------- Options ----------
 option(UOBJECT_BUILD_TESTS "Build tests" ON)
 option(BUILD_SHARED_LIBS "Build shared library" OFF)
@@ -28,7 +33,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 endif()
 
 if(MSVC)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /std:c11")
     add_compile_options(/W4)
 else()
     add_compile_options(-Wall -Wextra -pedantic)
