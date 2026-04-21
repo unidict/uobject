@@ -28,9 +28,9 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 endif()
 
 if(MSVC)
-    target_compile_options(uobject PRIVATE /std:c11 /W4)
+    add_compile_options(/std:c11 /W4)
 else()
-    target_compile_options(uobject PRIVATE -Wall -Wextra -pedantic)
+    add_compile_options(-Wall -Wextra -pedantic)
 endif()
 
 # ---------- Tests ----------
