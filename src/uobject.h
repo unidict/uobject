@@ -141,13 +141,13 @@ typedef struct uobject_type {
  *   uobject_release(&user->obj);
  *
  * Note:
- *   - The name pointer is not copied; caller must ensure its lifetime
- *   - Prefer string literals or char arrays inside the object itself
+ *   - The name string is internally copied (strdup) and freed on release
+ *   - Caller can safely pass stack-allocated or temporary strings
  */
 struct uobject {
     const uobject_type *type;
     _Atomic uint32_t    refcount;
-    const char         *name;
+    char               *name;
 };
 
 // ============================================================
@@ -166,18 +166,10 @@ struct uobject {
  * Note: @obj and @type must not be NULL. Passing NULL is a programmer error
  * and results in undefined behavior (the function silently returns).
  *
- * Name lifetime:
- *   - Must remain valid for the lifetime of the uobject
- *   - The function does not copy @name; it only stores the pointer
- *   - Prefer string literals or char arrays inside the object
- *
- * Safe:
- *   uobject_init(&obj->obj, &my_type, "alice");
- *
- * Dangerous:
- *   char name[64];
- *   snprintf(name, sizeof(name), "temp");
- *   uobject_init(&obj->obj, &my_type, name);  // WRONG: dangles after return
+ * Name ownership:
+ *   - The name string is copied internally (strdup) and owned by uobject
+ *   - Safe to pass stack-allocated or temporary strings
+ *   - Set to NULL if name is NULL or allocation fails
  */
 void uobject_init(uobject *obj, const uobject_type *type, const char *name);
 

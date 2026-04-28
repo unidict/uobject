@@ -21,7 +21,7 @@ void uobject_init(uobject *obj, const uobject_type *type, const char *name) {
 
     atomic_init(&obj->refcount, 1);
     obj->type = type;
-    obj->name = name;
+    obj->name = name ? strdup(name) : NULL;
 }
 
 uobject *uobject_retain(uobject *obj) {
@@ -53,7 +53,7 @@ bool uobject_release(uobject *obj) {
     // Decrement refcount; if it reaches zero, call the release function.
     if (atomic_fetch_sub_explicit(&obj->refcount, 1,
                                   memory_order_acq_rel) == 1) {
-        // Refcount reached zero, destroy the object
+        free(obj->name);
         if (obj->type && obj->type->release) {
             obj->type->release(obj);
         }
