@@ -24,7 +24,7 @@
 ### Build from Source
 
 ```bash
-git clone https://github.com/kejinlu/uobject.git
+git clone https://github.com/unidict/uobject.git
 cd uobject
 
 # Configure
