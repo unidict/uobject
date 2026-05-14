@@ -17,6 +17,7 @@ typedef struct TestObject {
 static int g_destroy_count = 0;
 static int g_retain_hook_count = 0;
 static int g_release_hook_count = 0;
+static int g_dealloc_hook_count = 0;
 
 static void test_object_release(uobject *obj) {
     TestObject *t = uobject_cast(obj, TestObject, obj);
@@ -33,6 +34,11 @@ static void test_object_on_retain(uobject *obj) {
 static void test_object_on_release(uobject *obj) {
     (void)obj;
     g_release_hook_count++;
+}
+
+static void test_object_on_dealloc(uobject *obj) {
+    (void)obj;
+    g_dealloc_hook_count++;
 }
 
 static uint32_t test_object_hash(uobject *obj) {
@@ -69,6 +75,7 @@ static const uobject_type test_object_type_with_hooks = {
     .release = test_object_release,
     .on_retain = test_object_on_retain,
     .on_release = test_object_on_release,
+    .on_dealloc = test_object_on_dealloc,
 };
 
 static const uobject_type test_object_type_full = {
@@ -344,6 +351,8 @@ static void test_uobject_on_retain_release_hooks(void) {
     // Last release also triggers on_release hook
     uobject_release(&t->obj);
     TEST_ASSERT_EQUAL_INT(3, g_release_hook_count);
+    // on_dealloc fires only once (the last release)
+    TEST_ASSERT_EQUAL_INT(1, g_dealloc_hook_count);
 }
 
 // ============================================================

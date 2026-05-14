@@ -97,6 +97,7 @@ typedef struct uobject_type {
     // Optional hooks
     void (*on_retain)(uobject *obj);
     void (*on_release)(uobject *obj);
+    void (*on_dealloc)(uobject *obj);    // Called only when refcount reaches 0, before release destructor
 } uobject_type;
 
 // ============================================================

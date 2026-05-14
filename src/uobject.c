@@ -53,6 +53,9 @@ bool uobject_release(uobject *obj) {
     // Decrement refcount; if it reaches zero, call the release function.
     if (atomic_fetch_sub_explicit(&obj->refcount, 1,
                                   memory_order_acq_rel) == 1) {
+        if (obj->type && obj->type->on_dealloc) {
+            obj->type->on_dealloc(obj);
+        }
         free(obj->name);
         if (obj->type && obj->type->release) {
             obj->type->release(obj);
